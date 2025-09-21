@@ -25,6 +25,7 @@ const LearningHistory = ({userId}) => {
     fetchData();
   }, []);
 
+  //סינון הנתונים
    const filteredItems = items
     .filter(item => item.userId === userId)
     .filter(item => !filterCategory || item.categoryId === filterCategory);

@@ -16,18 +16,20 @@ function ChooseTopic(userId) {
   const [selectedTopicId, setSelectedTopicId] = useState("");
   const [selectedSubtopicId, setSelectedSubtopicId] = useState("");
 
+  //בחירת נושא
   const handleTopicChange = (e) => {
     setSelectedTopicId(e.target.value);
     setSelectedSubtopicId(""); // איפוס תת-הקטגוריה
   };
 
+  //קבלת תת נושאים בהתאם לנושא שנבחר
   const getSubcategories = () => {
     if (selectedTopicId) {
       return Object.entries(topicsData[selectedTopicId].subcategories);
     }
     return [];
   };
-
+  //קבלת שמות הנושאים ותת הנושאים
   const getTopicName = (id) => topicsData[id]?.name;
   const getSubtopicName = (topicId, subtopicId) => topicsData[topicId]?.subcategories[subtopicId];
 

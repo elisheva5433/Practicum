@@ -10,6 +10,7 @@ function Prompt({ category, subCategory, userId }) {
     const [prompt, setPrompt] = useState("");
     const [response, setResponse] = useState("");
 
+    //שליחת הבקשה לשירות הAI ולאחר מכן למסד הנתונים
     async function sendPrompt(prompt) {
         var response = await sendPromptToOpenAI(prompt);
 
@@ -33,6 +34,7 @@ function Prompt({ category, subCategory, userId }) {
 
     }
 
+    //שליחת לשירות הAI
     const sendPromptToOpenAI = async (prompt) => {
         try {
             const response = await axios.post(`http://localhost:5084/api/OpenAI/GenerateText`, {
