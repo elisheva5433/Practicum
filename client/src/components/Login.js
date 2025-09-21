@@ -1,4 +1,5 @@
 import { use, useState } from "react";
+import { useEffect } from "react";
 import Welcome from './Welcome';
 import ChooseTopic from './ChooseTopic';
 import LearningHistory from './LearningHistory';
@@ -15,34 +16,41 @@ function Login() {
     const [errorMessagePhone, setErrorMessagePhone] = useState("");
     const [userId, setUserId] = useState("");
 
-const logUp = async () => {
-    const user = {
-        name: username,
-        phone: userphone
-    };
-    console.log(user);
+    // useEffect(() => {
+    //     if (userId) {
+    //         console.log("userId was updated: ", userId);
+    //     }
+    // }, [userId]);
 
-    try {
-        const response = await fetch(`http://localhost:5084/api/User/CreateUser`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        });
+    const logUp = async () => {
+        const user = {
+            name: username,
+            phone: userphone
+        };
+        console.log(user);
 
-        if (response.ok) {
-            const createdUser = await response.json(); // כאן יש את id שהשרת יצר
-            console.log("user created", createdUser);
-            setUserId(createdUser.id);  // ✅ משתמשים ב-id מהשרת
-            setLoggedIn(true);
-        } else {
-            console.log("error creating user");
+        try {
+            const response = await fetch(`http://localhost:5084/api/User/CreateUser`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(user)
+            });
+
+            if (response.ok) {
+                const createdUser = await response.json(); // כאן יש את id שהשרת יצר
+                console.log("user created", createdUser);
+                setUserId(createdUser.id);  // ✅ משתמשים ב-id מהשרת
+                console.log("userId set to: ", createdUser.id);
+                setLoggedIn(true);
+            } else {
+                console.log("error creating user");
+            }
+        } catch (err) {
+            console.error("Fetch error:", err);
         }
-    } catch (err) {
-        console.error("Fetch error:", err);
     }
-}
 
 
 
@@ -95,6 +103,7 @@ const logUp = async () => {
             const data = await response.json();
             console.log("found user", data);
             setLoggedIn(true);
+            setUserId(data.id); // ✅ משתמשים ב-id מהשרת
 
 
         } catch (error) {
@@ -102,6 +111,11 @@ const logUp = async () => {
         }
     };
 
+    useEffect(() => {
+        if (userId) {
+            console.log("✅ userId was updated:", userId);
+        }
+    }, [userId]);
 
 
     return (
@@ -145,9 +159,9 @@ const logUp = async () => {
                 </>
             )) : (
                 <>
-                    <Welcome></Welcome>
-                    <ChooseTopic userId={userId}></ChooseTopic>
-                    <LearningHistory></LearningHistory>
+                    <Welcome />
+                    <ChooseTopic userId={userId} />
+                    <LearningHistory userId={userId} />
                 </>
             )}
 

@@ -14,6 +14,10 @@ namespace PracticLearningProject.server.Controllers
         {
             _configuration = configuration;
         }
+        private IActionResult dummyLesson()
+        {
+            return Ok("This is a dummy lesson response due to OpenAI API failure.");
+        }
 
         [HttpPost("GenerateText")]
         public async Task<IActionResult> GenerateText([FromBody] Prompt prompt)
@@ -40,16 +44,24 @@ namespace PracticLearningProject.server.Controllers
                 max_tokens = 150
             };
 
-
-            var response = await httpClient.PostAsJsonAsync("https://api.openai.com/v1/completions", requestBody);
-            Console.WriteLine("OpenAI API Response Status: " + response.StatusCode);
-            if (!response.IsSuccessStatusCode)
-            {
-                return StatusCode((int)response.StatusCode, "Error from OpenAI API");
+            try{
+                var response = await httpClient.PostAsJsonAsync("https://api.openai.com/v1/completions", requestBody);
+                Console.WriteLine("OpenAI API Response Status: " + response.StatusCode);               
+                var responseContent = await response.Content.ReadFromJsonAsync<OpenAIResponse>();            
+                return Ok(responseContent.choices.FirstOrDefault()?.text.Trim());
             }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Exception when calling OpenAI API: " + ex.Message);
+                return dummyLesson();
+            }
+            // var response = await httpClient.PostAsJsonAsync("https://api.openai.com/v1/completions", requestBody);
+            // Console.WriteLine("OpenAI API Response Status: " + response.StatusCode);
+            // if (!response.IsSuccessStatusCode)
+            // {
+            //     return StatusCode((int)response.StatusCode, "Error from OpenAI API");
+            // }
 
-            var responseContent = await response.Content.ReadFromJsonAsync<OpenAIResponse>();
-            return Ok(responseContent.choices.FirstOrDefault()?.text.Trim());
         }
     }
 

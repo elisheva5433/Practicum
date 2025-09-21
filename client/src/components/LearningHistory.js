@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 const categoryMap = {
-  1: "מתמטיקה",
-  2: "אנגלית",
-  3: "מדעים",
-  4: "היסטוריה",
+  1: "Mathematic",
+  2: "Science",
+  3: "History",
+  4: "Literature",
 };
 
-const LearningHistory = () => {
+const LearningHistory = ({userId}) => {
   const [items, setItems] = useState([]);
   const [filterCategory, setFilterCategory] = useState(null);
 
@@ -25,13 +25,13 @@ const LearningHistory = () => {
     fetchData();
   }, []);
 
-  const filteredItems = filterCategory
-    ? items.filter((item) => item.categoryId === filterCategory)
-    : items;
+   const filteredItems = items
+    .filter(item => item.userId === userId)
+    .filter(item => !filterCategory || item.categoryId === filterCategory);
 
   return (
     <div style={{ fontFamily: "Arial", padding: "20px" }}>
-      <h2 style={{ marginBottom: "10px" }}>רשימה דינמית משרת</h2>
+      <h2 style={{ marginBottom: "10px" }}>My history learning</h2>
 
       {/* כפתורי סינון */}
       <div style={{ marginBottom: "15px" }}>
@@ -61,7 +61,7 @@ const LearningHistory = () => {
             backgroundColor: "#f5f5f5",
           }}
         >
-          הצג הכל
+          select all
         </button>
       </div>
 
@@ -78,11 +78,15 @@ const LearningHistory = () => {
               backgroundColor: "#fff",
             }}
           ><p style={{ margin: 0, color: "#555" }}>
-              קטגוריה: {categoryMap[item.categoryId] || "לא ידוע"}
+              category: {categoryMap[item.categoryId] || "unknown"}
             </p>
             <p style={{ margin: "0 0 5px 0", fontWeight: "bold", color: "#555" }}>
-              {item.promptText}
+              promp text: {item.promptText}
             </p>
+            <p style={{ margin: 0, color: "#555" }}>
+              date: {new Date(item.createdAt).toLocaleString() || "unknown"}
+            </p>
+            
             
           </div>
         ))}

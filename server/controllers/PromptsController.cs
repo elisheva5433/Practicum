@@ -23,8 +23,16 @@ namespace PracticLearningProject.server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllPrompts()
         {
-            var prompts =await _promptsService.GetAllPrompts();
+            try{
+                 var prompts =await _promptsService.GetAllPrompts();
             return Ok(prompts);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("❌ Exception in GetAllPrompts: " + ex.Message);
+                return StatusCode(500, new { error = ex.Message });
+            }
+           
         }
 
         // GET
