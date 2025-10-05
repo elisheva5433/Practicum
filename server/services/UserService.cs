@@ -11,15 +11,12 @@ namespace services
         private readonly List<User> _users;
         private readonly IDbContext _context;
 
-    public UserService(IDbContext context)
-    {
-        _context = context;
+        public UserService(IDbContext context)
+        {
+            _context = context;
        
-    }
-
-
+        }
        
-
         public async Task<List<User>> GetUsers()
         {
             return await _context.Users.Find(_ => true).ToListAsync();

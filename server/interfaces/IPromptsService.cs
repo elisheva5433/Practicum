@@ -7,11 +7,8 @@ namespace interfaces
     public interface IPromptsService
     {
         Task<List<Prompt>> GetAllPrompts();
-        // Task<Prompt> GetPromptById(string id);
+        Task<List<Prompt>> GetPromptById(string id);
         Task<Prompt> CreatePrompt(Prompt prompt);
-        // bool UpdatePrompt(Prompt prompt);
-        // Task DeletePrompt(string id);
-        // IEnumerable<Prompt> GetPromptsBySubCategoryId(int subCategoryId); // חדש
     }
 }
 

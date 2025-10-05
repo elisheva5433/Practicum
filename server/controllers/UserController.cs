@@ -17,6 +17,7 @@ namespace PracticLearningProject.Server.Controllers
         {
             _userService = userService;
         }
+        
         // GET
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -44,6 +45,7 @@ namespace PracticLearningProject.Server.Controllers
                 return NotFound($"User with name {name} not found.");
             return Ok(user);
         }
+
         [HttpGet("byPhone/{phone}")]
         public async Task<IActionResult> GetUserByPhone(string phone)
         {
@@ -63,11 +65,11 @@ namespace PracticLearningProject.Server.Controllers
 
         //DELETE
         [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUser(string id)
-{
-    await _userService.DeleteUser(id);
-    return NoContent();
-}
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            await _userService.DeleteUser(id);
+            return NoContent();
+        }
 
         // PUT
         [HttpPut("{id}")]

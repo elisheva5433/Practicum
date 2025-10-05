@@ -14,6 +14,7 @@ namespace PracticLearningProject.Server.Controllers
         {
             _subCategoriesService = SubCategoriesService; 
         }
+        
         // GET
         [HttpGet("GetSubCategories/{id}")]
         public async Task<IActionResult> GetSubCategoriesByCategoryId(int id)

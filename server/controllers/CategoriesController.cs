@@ -18,6 +18,7 @@ namespace PracticLearningProject.Server.Controllers
         {
             _categoriesService = categoriesService;
         }
+
         // GET
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(string id)
@@ -27,5 +28,6 @@ namespace PracticLearningProject.Server.Controllers
                 return NotFound($"Category with ID {id} not found.");
             return Ok(category);
         }
+        
     }
 }
